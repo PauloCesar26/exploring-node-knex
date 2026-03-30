@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <link href="/output.css" rel="stylesheet">
+  <title>Admin</title>
+</head>
+<body class="flex flex-col min-h-screen w-full box-border">
+  <div class="min-h-screen bg-red-600 flex items-center justify-center p-4">
+    <div class="p-6 overflow-hidden w-full max-w-md bg-white rounded-lg shadow-2xl animate-slide-up border border-gray-200/50 backdrop-blur-sm">
+      <header class="text-center space-y-2 mb-5 text-2xl font-medium">
+        <h1>Login Admin</h1>
+      </header>
+
+      <section class="">
+        <form action="/admin/login" method="POST" class="flex flex-col">
+          <div class="mb-5 flex flex-col">
+            <label>User:</label>
+            <input type="text" name="user" class="w-full h-10 pl-2 border border-gray-300 rounded-lg bg-white/50 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all" required>
+            <% if(errorUser){ %>
+              <p><%= errorUser %></p>
+            <% } %>
+          </div>
+
+          <div class="mb-5 flex flex-col">
+            <label>Password:</label>
+            <input type="password" name="password" class="w-full h-10 pl-2 border border-gray-300 rounded-lg bg-white/50 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all" required>
+            <% if(errorPassword){ %>
+              <p><%= errorPassword %></p>
+            <% } %>
+          </div>
+          
+          <button type="submit" class="cursor-pointer w-full h-11 bg-gradient-to-r from-red-700 from-40% to-red-900 text-white font-medium rounded-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center">
+            Entrar
+          </button>
+        </form>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

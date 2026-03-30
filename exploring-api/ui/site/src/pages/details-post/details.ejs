@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Usuários Cadastrados</title>
+  <link href="/output.css" rel="stylesheet">
+</head>
+<body>
+  <%- include("../includes/navbar.ejs"); %>
+
+  <div class="max-w-[650px] min-w-[200px] sm:w-300 text-black rounded-[15px] md:ml-auto md:mr-auto flex flex-col mt-2 p-2 mb-5">
+    <% content.forEach(c => { %>
+      <% if (c.type_content === 'title') { %>
+        <p><%= c.content %></p>
+      <% } %>
+  
+      <% if (c.type_content === 'text') { %>
+        <p><%= c.content %></p>
+      <% } %>
+  
+      <% if (c.type_content === 'image') { %>
+        <img src="<%= c.image %>" width="500" height="300">
+      <% } %>
+    <% }) %>
+  </div>
+
+</body>
+</html>
