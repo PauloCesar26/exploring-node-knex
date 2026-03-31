@@ -1,5 +1,5 @@
-create database db_test_api;
-use db_test_api;
+create database db_admin;
+use db_admin;
 
 create table infoUsers(
 id int AUTO_INCREMENT,

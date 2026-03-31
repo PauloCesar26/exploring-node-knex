@@ -1,8 +1,8 @@
 import mysql from "mysql2";
 
 export const db = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: "",
-    database: process.env.DB
+    host: "127.0.0.1",
+    user: "dev",
+    password: "123456",
+    database: "db_admin"
 });
