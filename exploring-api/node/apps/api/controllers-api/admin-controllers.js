@@ -1,27 +1,24 @@
 import { db } from "../database/db-connection.js";
 import jwt from "jsonwebtoken";
 
-export const adminMakeLogin = (req, res) => {
+export const adminMakeLogin = async (req, res) => {
     const JWT_SECRET = process.env.JWT_SECRET;
-
     const { user, password } = req.body;
-    const sql = "SELECT * FROM adminApp WHERE userName = ?";
 
-    db.query(sql, [user], (err, result) => {
-        if(err){
-            console.error("Erro ao buscar user name: ", err);
-            return res.status(500).send(err);
-        }
+    try{
+        const result = await db("adminApp")
+        .select("*")
+        .where({ userName: user});
 
         if(result.length === 0){
             return res.status(400).json({ 
                 errorUser: "Invalid username",
                 errorPassword: null 
-            });
+            }); 
         }
 
-        const admin = result[0];
-        
+        const admin = result[0]
+
         if(password !== admin.userPassword){
             return res.status(400).json({
                 errorUser: null,
@@ -32,7 +29,7 @@ export const adminMakeLogin = (req, res) => {
         const token = jwt.sign({
             id: admin.id_admin,
         }, JWT_SECRET, {
-            expiresIn: "15m"
+            expiresIn: "10m"
         });
 
         res.status(200).json({
@@ -42,9 +39,14 @@ export const adminMakeLogin = (req, res) => {
                 token: token
             }
         });
+
         console.log("Admin:", admin.userName);
         console.log("Token:", token);
-    });
+    }
+    catch(err){
+        console.error("Erro ao buscar admin: ", err);
+        return res.status(500).send(err);
+    }
 }
 
 export const adminRegisterUser = (req, res) => {
