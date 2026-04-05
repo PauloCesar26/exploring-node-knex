@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { db } from "./database/db-connection.js";
+import { dbKnex } from "./database/db-connection.js";
 import { apiAdminRouter } from "./routes-api/admin-routes.js";
 import { apiSiteRouter } from "./routes-api/website-routes.js";
 import dotenv from "dotenv";
@@ -21,7 +21,7 @@ app.use("/uploads-content", express.static("uploads-content"));
 
 async function startServer(){
   try{
-    await db.raw("SELECT 1");
+    await dbKnex.raw("SELECT 1");
 
     console.log("Conectado ao MySQL.");
 

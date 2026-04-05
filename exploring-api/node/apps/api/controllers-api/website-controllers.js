@@ -1,4 +1,4 @@
-import { db } from "../database/db-connection.js";
+import { dbKnex } from "../database/db-connection.js";
 
 export const selectUsers = (req, res) => {
     const sql = "SELECT * FROM infoUsers";

@@ -1,4 +1,4 @@
-import { db } from "../database/db-connection.js";
+import { dbKnex } from "../database/db-connection.js";
 import jwt from "jsonwebtoken";
 
 export const adminMakeLogin = async (req, res) => {
@@ -6,7 +6,7 @@ export const adminMakeLogin = async (req, res) => {
     const { user, password } = req.body;
 
     try{
-        const result = await db("adminApp")
+        const result = await dbKnex("adminApp")
         .select("*")
         .where({ userName: user});
 
@@ -49,24 +49,24 @@ export const adminMakeLogin = async (req, res) => {
     }
 }
 
-export const adminRegisterUser = (req, res) => {
+export const adminRegisterUser = async (req, res) => {
     const { name, email, slug } = req.body;
     const imageName = req.file.filename;
     const imgUrl = `http://localhost:3000/uploads/${imageName}`;
     
-    const sql = "INSERT INTO infoUsers (userImg, nome, email, slug) VALUES (?, ?, ?, ?)";
-
-    db.query(sql, [imgUrl, name, email, slug], (err, result) => {
-        if(err){
-            console.error("Erro ao inserir:", err);
-            return res.status(500).json({ error: "Erro ao criar post" });
-        }
+    try{
+        const [id] = await dbKnex("infoUsers")
+        .insert({ userImg: imgUrl, nome: name, email: email, slug: slug});
 
         return res.status(201).json({
             message: "Post criado com sucesso",
-            postId: result.insertId
+            postId: id
         });
-    });
+    }
+    catch(err){
+        console.error("Erro ao inserir:", err);
+        return res.status(500).json({ error: "Erro ao criar post" });
+    }
 }
 
 export const adminManageUsers = (req, res) => {
