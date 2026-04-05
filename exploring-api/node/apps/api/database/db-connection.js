@@ -1,8 +1,15 @@
-import mysql from "mysql2";
+import knex from "knex";
 
-export const db = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "dev",
-    password: "123456",
-    database: "db_admin"
+export const db = knex({
+    client: "mysql2",
+    connection: {
+        host: process.env.HOST,
+        user: process.env.DB_USER,
+        password: process.env.PASSWORD,
+        database: process.env.DB
+    },
+    pool: {
+        min: 2,
+        max: 10
+    }
 });

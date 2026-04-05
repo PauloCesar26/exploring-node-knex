@@ -19,18 +19,22 @@ app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads-content", express.static("uploads-content"));
 
-db.connect((err) => {
-  if(err){
+async function startServer(){
+  try{
+    await db.raw("SELECT 1");
+
+    console.log("Conectado ao MySQL.");
+
+    app.listen(3000, () => {
+      console.log("Servidor rodando em http://localhost:3000");
+    });
+  }
+  catch(err){
     console.error("Erro ao conectar no banco:", err);
   }
-  else{
-    console.log("Conectado ao MySQL.");
-  }
-});
+};
 
 app.use("/api/admin", apiAdminRouter);
 app.use("/api/site", apiSiteRouter);
 
-app.listen(3000, () => {
-  console.log("Servidor rodando em http://localhost:3000");
-});
+startServer();
