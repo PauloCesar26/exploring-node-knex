@@ -56,7 +56,12 @@ export const adminRegisterUser = async (req, res) => {
     
     try{
         const [id] = await dbKnex("infoUsers")
-        .insert({ userImg: imgUrl, nome: name, email: email, slug: slug});
+        .insert({ 
+            userImg: imgUrl, 
+            nome: name, 
+            email: email, 
+            slug: slug
+        });
 
         return res.status(201).json({
             message: "Post criado com sucesso",
@@ -69,36 +74,40 @@ export const adminRegisterUser = async (req, res) => {
     }
 }
 
-export const adminManageUsers = (req, res) => {
-    const sql = "SELECT * FROM infoUsers";
+export const adminManageUsers = async (req, res) => {
+    try{
+        const result = await dbKnex("infoUsers").select("*");
 
-    db.query(sql, (err, result) => {
-        if(err){
-            console.error("Erro ao buscar dados: ", err);
-            return res.status(500).send(err);
-        }
-        else{
-            res.json({
-                user: result
-            });
-        }
-    });
+        res.json({
+            user: result
+        });
+    }
+    catch(err){
+        console.error("Erro ao buscar dados: ", err);
+        return res.status(500).json({ 
+            message: "Erro interno ao buscar usuários.",
+            error: err.message
+        });
+    }
 }
 
-export const adminDeleteUser = (req, res) => {
+export const adminDeleteUser = async (req, res) => {
     const { id } = req.params;
 
-    db.query("DELETE FROM infoUsers WHERE id = ?", [id], (err, result) => {
-        if(err){
-            console.error("Erro ao deletar: ", err);
-        }
-        else{
-            res.status(200).json({message: "User deleted"});
-        }
-    });
+    try{
+        const result = await dbKnex("infoUsers").where({id: id}).delete();
+        res.status(200).json({message: "User deleted"});
+    }
+    catch(err){
+        console.error("Erro ao deletar: ", err);
+        return res.status(500).json({ 
+            message: "Erro interno ao deletar usuário.",
+            error: err.message
+        });
+    }
 }
 
-export const adminCreateContentPost = (req, res) => {
+export const adminCreateContentPost = async (req, res) => {
     const { postId } = req.params;
     const { type, content, position } = req.body;
     const imageName = req.file ? req.file.filename : null;
@@ -110,16 +119,21 @@ export const adminCreateContentPost = (req, res) => {
     if((type === "text" || type === "title") && !content){
         return res.status(400).json({ error: "Text or title obrigatorio" });
     }
-    
-    const sql = "INSERT INTO content_post (id_card, type_content, content, position_content, image) VALUES (?, ?, ?, ?, ?)";
 
-    db.query(sql, [postId, type, content || null, position, imgUrl], (err) => {
-        if(err){
-            console.error("Error ao enviar conteudo do post: ", err);
-            return res.status(500).json({ error: "Erro ao mandar content do post" });
-        }
-        else{
-            res.status(201).json({ message: "Content salvo com sucesso" });
-        }
-    });
+    try{
+        const result = await dbKnex("content_post")
+        .insert({
+            id_card: postId,
+            type_content: type,
+            content: content || null,
+            position_content: position,
+            image: imgUrl 
+        });
+
+        res.status(201).json({ message: "Content salvo com sucesso" });
+    }
+    catch(err){
+        console.error("Error ao enviar conteudo do post: ", err);
+        return res.status(500).json({ error: "Erro ao mandar content do post" });
+    }
 }
