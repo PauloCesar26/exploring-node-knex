@@ -1,0 +1,22 @@
+<aside class="w-64 bg-zinc-600 text-white">
+
+    <h2 class="w-full text-center font-bold p-5">Admin</h2>
+
+    <nav class="space-y-2">
+        <a href="/admin" class="w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">Home</a>
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="dropdown-button w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">
+                Posts
+                <span>▼</span>
+            </button>
+
+            <div class="dropdown-menu hidden pl-4 mt-2 space-y-1">
+                <a href="/admin/register-info" class="block px-4 py-2">Publicar post</a>
+                <a href="/admin/manage-user" class="block px-4 py-2">Gerenciar post</a>
+            </div>
+        </div>
+        <a href="http://localhost:3002" target="_blank" class="w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">Site Web</a>
+        <a href="/admin/logout" class="w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">Logout</a>
+    </nav>
+</aside>

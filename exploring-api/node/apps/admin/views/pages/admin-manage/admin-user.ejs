@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin</title>
+  <link href="/admin/static/output.css" rel="stylesheet">
+</head>
+<body>
+  <div class="h-screen flex flex-col">
+    <div class="flex flex-1">
+      <%- include("../../includes/sidebar.ejs"); %>
+  
+      <main class="flex-1 p-6">
+        <div class="mb-5 text-[1.1rem] font-medium">
+          <h1>Lista de post no db</h1>
+        </div>
+
+        <ul>
+          <% if(user && user.length > 0) { %>
+            <% console.log(user) %>
+
+            <% user.forEach(users => { %>
+              <div class="bg-zinc-200 border-2 border-zinc-300 hover:border-black flex flex-col max-md:w-[300px] w-[320px] rounded-[15px] overflow-hidden">
+                <form action="/admin/manage-user/<%= users.id %>" method="POST">
+                  <div class="flex flex-col w-full h-[50%] bg-zinc-900">
+                    <img src="<%= users.userImg %>">
+                  </div>
+                  <div class="flex-1 p-4 text-[1.1rem]">
+                    <p><%= users.nome %></p>
+                    <p><%= users.email %></p>
+                  </div>
+                  <div class="p-2 flex justify-end">
+                    <button class="h-10 p-3 bg-zinc-500 text-white font-medium rounded-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center cursor-pointer">
+                      Delete
+                    </button>
+                  </div>
+                </form>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <li>Nenhum post encontrado</li>
+          <% } %>
+        </ul>
+      </main>
+    </div>
+  
+    <%- include("../../includes/footer.ejs"); %>
+  </div>
+  <script src="/admin/static/js/sidebar.js"></script>
+</body>
+</html>

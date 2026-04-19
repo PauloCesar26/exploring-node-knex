@@ -1,38 +1,42 @@
 import { dbKnex } from "../database/db-connection.js";
 
-export const selectUsers = (req, res) => {
-    const sql = "SELECT * FROM infoUsers";
+export const selectUsers = async (req, res) => {
+    try{
+        const result = await dbKnex("infoUsers").select("*");
 
-    db.query(sql, (err, result) => {
-        if(err){
-            console.error("Erro ao buscar dados: ", err);
-            return res.status(500).send(err);
-        }
-        else{
-            res.json({
-                user: result
-            });
-        }
-    });
+        res.json({
+            user: result
+        });
+    }
+    catch(err){
+        console.error("Erro ao buscar dados: ", err);
+        return res.status(500).json({ 
+            message: "Erro interno ao buscar usuários.",
+            error: err.message
+        });
+    }
 }
 
-export const selectContentPost = (req, res) => {
+export const selectContentPost = async (req, res) => {
     const { id } = req.params;
 
-    const sqlPost = "SELECT * FROM infoUsers WHERE id = ?";
-    const sqlContent = "SELECT * FROM content_post WHERE id_card = ? ORDER BY position_content ASC";
+    try{
+        const [post, content] = await Promise.all([
+            dbKnex("infoUsers").where({ id }).first(),
+            dbKnex("content_post").where({ id_card: id}).orderBy("position_content", "asc")
+        ]);
 
-    db.query(sqlPost, [id], (err, result) => {
-        if(result.length === 0){
-            console.error("Erro ao buscar o post: ", err);
-            return res.status(404).json({message: "Post não encontrado"});
+        if(!post){
+            return res.status(404).json({ message: "Post not found"});
         }
 
-        db.query(sqlContent, [id], (err, content) => {
-            res.json({
-                post: result[0],
-                content: content 
-            });
+        return res.json({
+            post: post,
+            content: content 
         });
-    });
+    }
+    catch(err){
+        console.error("Erro ao buscar o post: ", err);
+        return res.status(404).json({message: "Erro ao buscar o post"});
+    }
 }

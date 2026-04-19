@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin</title>
+  <link href="/admin/static/output.css" rel="stylesheet">
+  <style>
+    input{
+      border: 1px solid black;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="h-screen flex flex-col">
+    <div class="flex flex-1">
+      <%- include("../../includes/sidebar.ejs"); %>
+  
+      <main class="flex-1 p-6">
+        <div class="mb-5 text-[1.1rem] font-medium">
+          <h2>Send post info</h2>
+        </div>
+
+        <div class="bg-zinc-200 p-2 rounded-2xl">
+          <form id="form-admin" action="/admin/post/<%= postId %>/content" method="POST" enctype="multipart/form-data">
+            <label>Type do conteudo:</label>
+            <select name="type" id="selectTypeContent" required>
+              <option value="title">Title</option>
+              <option value="text">Text</option>
+              <option value="image">Image</option>
+            </select><br><br>
+            
+            <div class="" id="simple-content">
+              <label>Content:</label>
+              <input id="content" type="text" name="content"><br><br>
+            </div>
+
+            <div class="" id="image-content">
+              <label>Imagem:</label>
+              <input id="file" type="file" name="image"><br><br>
+            </div>
+            
+            <label>Position que vai ficar na pagina:</label>
+            <input id="position" type="number" name="position" required><br><br>
+            
+            <button type="submit" class="h-10 p-3 bg-zinc-500 text-white font-medium rounded-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center cursor-pointer">
+              Enter
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  
+    <%- include("../../includes/footer.ejs"); %>
+  </div>
+  <script src="/admin/static/js/post.js"></script>
+  <script src="/admin/static/js/sidebar.js"></script>
+</body>
+</html>

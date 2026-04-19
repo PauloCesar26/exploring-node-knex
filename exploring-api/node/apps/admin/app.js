@@ -13,7 +13,10 @@ const __dirname = dirname(__filename);
 const app = express();
 
 console.log("Diretório atual (__dirname):", __dirname);
-app.use(express.static(path.join(__dirname, "../../../ui/admin/public")));
+// app.use(express.static(path.join(__dirname, "../../../ui/admin/public")));
+app.use("/admin/static", express.static(
+  path.join(__dirname, "/public")
+));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -21,7 +24,7 @@ app.use(session({
 }));
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "../../../ui/"));
+app.set("views", path.join(__dirname, "views"));
 
 app.use("/admin", adminRouter);
 

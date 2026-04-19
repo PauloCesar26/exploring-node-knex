@@ -1,21 +1,21 @@
 import fetch from "node-fetch";
 
 export const viewLogin = (req, res) => {
-    res.render("admin/src/pages/login/login", { errorUser: null, errorPassword: null });
+    res.render("pages/login/login", { errorUser: null, errorPassword: null });
 }
 
 export const admin = (req, res) => {
-    res.render("admin/src/pages/index");
+    res.render("pages/index");
 }
 
 export const registerView = (req, res) => {
-    res.render("admin/src/pages/register-info/register");
+    res.render("pages/register-info/register");
 }
 
 export const viewPost = (req, res) => {
     const { postId } = req.params;
 
-    res.render("admin/src/pages/send-post/post", { postId });
+    res.render("pages/send-post/post", { postId });
 }
 
 export const makeLogin = async (req, res) => {
@@ -35,7 +35,7 @@ export const makeLogin = async (req, res) => {
         console.log("-------------");
 
         if(!response.ok){
-            return res.render("admin/login/login", {
+            return res.render("pages/login/login", {
                 errorUser: admin.errorUser || null,
                 errorPassword: admin.errorPassword || null
             });
@@ -83,7 +83,7 @@ export const manageUsers = async (req, res) => {
         console.log("------ADMIN------");
         console.log(result);
 
-        res.render("admin/src/pages/admin-manage/admin-user", {
+        res.render("pages/admin-manage/admin-user", {
             user: result.user
         });
     }
@@ -153,7 +153,6 @@ export const deleteUser = async (req, res) => {
 
 export const createContentPost = async (req, res) => {
     const { postId } = req.params;
-    // const { type, content, position } = req.body;
 
     try{
         if(!req.session.admin){
