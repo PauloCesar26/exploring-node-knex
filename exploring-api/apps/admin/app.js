@@ -1,0 +1,33 @@
+import express from "express";
+import path from "path";
+import session from "express-session";
+import cors from "cors";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import { adminRouter } from "./routes/admin-routes.js";
+import bodyParser from "body-parser";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+console.log("Diretório atual (__dirname):", __dirname);
+
+app.use("/admin/static", express.static(
+  path.join(__dirname, "/public")
+));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'anfdjkfjdkhfdsdgoyitgj'
+}));
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+app.use("/admin", adminRouter);
+app.listen(PORT, () => {
+  console.log(`Admin rodando em http://localhost:${PORT}`);
+});
