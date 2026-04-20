@@ -175,3 +175,35 @@ export const createContentPost = async (req, res) => {
         res.redirect(`/admin/post/${postId}/content`);
     }
 }
+
+export const exportDataDb = async (req, res) => {
+    console.log("exportDataDb chamado");
+    try{
+         if(!req.session.admin){
+            return res.redirect("/admin/admin-login");
+        }
+
+        const response = await fetch("http://localhost:3000/api/admin/export-data", {
+            method: "GET",
+            headers: {
+                authorization: "Bearer " + req.session.admin.token,
+            }
+        });
+
+        if(response.status === 401){
+            console.log("Token inválido ou expirado");
+            return res.redirect("/admin/admin-login");
+        }
+
+        const buffer = await response.arrayBuffer();
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename="data.xlsx"');
+
+        res.send(Buffer.from(buffer));
+    }
+    catch(err){
+        console.log("Erro:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+}

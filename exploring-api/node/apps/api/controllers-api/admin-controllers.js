@@ -1,5 +1,6 @@
 import { dbKnex } from "../database/db-connection.js";
 import jwt from "jsonwebtoken";
+import ExcelJS from "exceljs";
 
 export const adminMakeLogin = async (req, res) => {
     const JWT_SECRET = process.env.JWT_SECRET;
@@ -135,5 +136,31 @@ export const adminCreateContentPost = async (req, res) => {
     catch(err){
         console.error("Error ao enviar conteudo do post: ", err);
         return res.status(500).json({ error: "Erro ao mandar content do post" });
+    }
+}
+
+export const exportDataDb = async (req, res) => {
+    try{
+        const rows = await dbKnex("infoUsers").select("*");
+
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet("Infos");
+
+        sheet.columns = Object.keys(rows[0]).map(key => ({
+            header: key,
+            key: key,
+            width: 20
+        }));
+
+        rows.forEach(row => sheet.addRow(row));
+
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        res.setHeader("Content-Disposition", 'attachment; filename="infos.xlsx"');
+
+        await workbook.xlsx.write(res);
+        res.end();
+    }
+    catch(err){
+        res.status(500).json({ error: err.message });
     }
 }
