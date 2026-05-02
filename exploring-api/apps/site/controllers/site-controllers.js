@@ -50,6 +50,7 @@ export const displayContentSearch = async (req, res) => {
         });
 
         const result = await response.json();
+        console.log("Search query: ", result.search_query);
 
         res.render("pages/site", {
             content: result.content,

@@ -44,11 +44,13 @@ export const selectContentPost = async (req, res) => {
 export const searchDb = async (req, res) => {
     try{
         const search = req.query.query?.trim() || "";
+        console.log("Search API: ", search);
 
         const query = dbKnex("infoUsers").select("*");
     
         if(search){
             const termo = `%${search}%`;
+            console.log("Termo: ", termo);
     
             query.where(function() {
                 this.whereRaw('LOWER(nome) LIKE LOWER(?)', [termo])

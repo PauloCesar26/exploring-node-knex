@@ -27,8 +27,6 @@ export const makeLogin = async (req, res) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user, password }),
         });
-        console.log(response);
-        console.log("-------------");
 
         const admin = await response.json();
         console.log(admin);
