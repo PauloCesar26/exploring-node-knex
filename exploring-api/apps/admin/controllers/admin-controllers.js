@@ -60,6 +60,8 @@ export const makeLogout = (req, res) => {
 }
 
 export const manageUsers = async (req, res) => {
+    const token = req.session.admin.token;
+
     try{
         if(!req.session.admin){
             return res.redirect("/admin/admin-login");
@@ -68,7 +70,7 @@ export const manageUsers = async (req, res) => {
         const response = await fetch("http://localhost:3000/api/admin/manage-user", {
             method: "GET",
             headers: {
-                authorization: "Bearer " + req.session.admin.token,
+                "Authorization": `Bearer ${token}`,
             }
         });
 
@@ -102,7 +104,7 @@ export const registerUser = async (req, res) => {
         const response = await fetch("http://localhost:3000/api/admin/register-user", {
             method: "POST",
             headers: {
-                'Authorization': `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
                 "Content-Type": req.headers["content-type"]
             },
             body: req
@@ -125,6 +127,7 @@ export const registerUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
     const { id } = req.params;
+    const token = req.session.admin.token;
 
     try {
         if(!req.session.admin){
@@ -134,7 +137,7 @@ export const deleteUser = async (req, res) => {
         const response = await fetch(`http://localhost:3000/api/admin/manage-user/${id}`, {
             method: "DELETE",
             headers: {
-                authorization: `Bearer ${req.session.admin.token}`,
+                "Authorization": `Bearer ${token}`,
             },
         });
 
@@ -153,6 +156,7 @@ export const deleteUser = async (req, res) => {
 
 export const createContentPost = async (req, res) => {
     const { postId } = req.params;
+    const token = req.session.admin.token;
 
     try{
         if(!req.session.admin){
@@ -162,7 +166,7 @@ export const createContentPost = async (req, res) => {
         await fetch(`http://localhost:3000/api/admin/post/${postId}/content`, {
             method: "POST",
             headers: {
-                authorization: `Bearer ${req.session.admin.token}`,
+                "Authorization": `Bearer ${token}`,
                 "Content-Type": req.headers["content-type"]
             },
             body: req
@@ -177,7 +181,8 @@ export const createContentPost = async (req, res) => {
 }
 
 export const exportDataDb = async (req, res) => {
-    console.log("exportDataDb chamado");
+    const token = req.session.admin.token;
+
     try{
          if(!req.session.admin){
             return res.redirect("/admin/admin-login");
@@ -186,7 +191,7 @@ export const exportDataDb = async (req, res) => {
         const response = await fetch("http://localhost:3000/api/admin/export-data", {
             method: "GET",
             headers: {
-                authorization: "Bearer " + req.session.admin.token,
+                "Authorization": `Bearer ${token}`,
             }
         });
 

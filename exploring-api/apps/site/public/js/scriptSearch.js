@@ -20,29 +20,29 @@ const buildCard = (users) => `
 `;
 
 const searchUsers = async (query) => {
-    try{
-      const url = new URL("http://localhost:3000/api/site/search");
+  try{
+    const url = new URL("http://localhost:3000/api/site/search");
 
-      if(query){
-        url.searchParams.set("query", query);
-      }
-
-      const response = await fetch(url.toString());
-      const result = await response.json();
-      const users = result.user;
-
-      if(!users || users.length === 0){
-        userList.innerHTML = "<li class='text-white'>Nenhum post encontrado</li>";
-        return;
-      }
-
-      userList.innerHTML = users.map(buildCard).join("");
+    if(query){
+      url.searchParams.set("query", query);
     }
-    catch(err){
-      console.error("Erro ao buscar post: ", err);
+
+    const response = await fetch(url.toString());
+    const result = await response.json();
+    const users = result.user;
+
+    if(!users || users.length === 0){
+      userList.innerHTML = "<li class='text-white'>Nenhum post encontrado</li>";
+      return;
     }
+
+    userList.innerHTML = users.map(buildCard).join("");
+  }
+  catch(err){
+    console.error("Erro ao buscar post: ", err);
+  }
 }
 
 buttonSearch.addEventListener("click", () => {
-    searchUsers(searchInput.value.trim());
+  searchUsers(searchInput.value.trim());
 });
