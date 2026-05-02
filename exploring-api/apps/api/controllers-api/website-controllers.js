@@ -40,3 +40,33 @@ export const selectContentPost = async (req, res) => {
         return res.status(404).json({message: "Erro ao buscar o post"});
     }
 }
+
+export const searchDb = async (req, res) => {
+    try{
+        const search = req.query.query?.trim() || "";
+
+        const query = dbKnex("infoUsers").select("*");
+    
+        if(search){
+            const termo = `%${search}%`;
+    
+            query.where(function() {
+                this.whereRaw('LOWER(nome) LIKE LOWER(?)', [termo])
+                .orWhereRaw('LOWER(email) LIKE LOWER(?)', [termo]);
+            });
+        }
+    
+        const result = await query;
+        
+        return res.json({
+            user: result
+        });
+    }
+    catch(err){
+        console.error("Erro ao buscar conteúdos: ", err);
+        return res.status(500).json({
+            message: "Erro interno ao buscar conteúdos.",
+            error: err.message,
+        });
+    }
+}
