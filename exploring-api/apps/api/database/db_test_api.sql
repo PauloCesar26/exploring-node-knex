@@ -1,20 +1,22 @@
 create database db_admin;
 use db_admin;
 
-create table infoUsers(
-id int AUTO_INCREMENT,
-userImg varchar(255),
-nome varchar(100),
-email varchar(100),
-slug varchar(100),
-primary key(id)
-);
-
 create table adminApp(
 id_admin int auto_increment,
 userName varchar(50),
 userPassword varchar(50),
 PRIMARY KEY(id_admin)
+);
+
+create table infoUsers(
+id int AUTO_INCREMENT,
+id_admin int not null,
+userImg varchar(255),
+nome varchar(100),
+email varchar(100),
+slug varchar(100),
+PRIMARY KEY(id),
+FOREIGN KEY (id_admin) REFERENCES adminApp(id_admin) ON DELETE CASCADE
 );
 
 create table content_post(

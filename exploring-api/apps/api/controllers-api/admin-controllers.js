@@ -54,10 +54,12 @@ export const adminRegisterUser = async (req, res) => {
     const { name, email, slug } = req.body;
     const imageName = req.file.filename;
     const imgUrl = `http://localhost:3000/uploads/${imageName}`;
+    const id_admin = req.adminToken;
     
     try{
         const [id] = await dbKnex("infoUsers")
         .insert({ 
+            id_admin,
             userImg: imgUrl, 
             nome: name, 
             email: email, 
@@ -77,7 +79,11 @@ export const adminRegisterUser = async (req, res) => {
 
 export const adminManageUsers = async (req, res) => {
     try{
-        const result = await dbKnex("infoUsers").select("*");
+        const id_admin = req.adminToken;
+
+        const result = await dbKnex("infoUsers")
+        .select("*")
+        .where({ id_admin });
 
         res.json({
             user: result
@@ -94,9 +100,11 @@ export const adminManageUsers = async (req, res) => {
 
 export const adminDeleteUser = async (req, res) => {
     const { id } = req.params;
+    const id_admin = req.adminToken;
 
     try{
-        const result = await dbKnex("infoUsers").where({id: id}).delete();
+        const result = await dbKnex("infoUsers").where({id: id, id_admin}).delete();
+
         res.status(200).json({message: "User deleted"});
     }
     catch(err){

@@ -44,7 +44,7 @@ export const makeLogin = async (req, res) => {
             name: admin.admin.userName,
             token: admin.admin.token
         };
-        console.log("Admin:", req.session.admin);
+        console.log("Admin session:", req.session.admin);
         return res.redirect("/admin");
     } 
     catch(error){
@@ -92,6 +92,8 @@ export const manageUsers = async (req, res) => {
 }
 
 export const registerUser = async (req, res) => {
+    const token = req.session.admin.token;
+
     try {
         if(!req.session.admin){
             return res.redirect("/admin/admin-login");
@@ -100,7 +102,7 @@ export const registerUser = async (req, res) => {
         const response = await fetch("http://localhost:3000/api/admin/register-user", {
             method: "POST",
             headers: {
-                authorization: `Bearer ${req.session.admin.token}`,
+                'Authorization': `Bearer ${token}`,
                 "Content-Type": req.headers["content-type"]
             },
             body: req
