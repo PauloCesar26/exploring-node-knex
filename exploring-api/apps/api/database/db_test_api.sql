@@ -32,6 +32,8 @@ FOREIGN KEY (id_card) REFERENCES infoUsers(id) ON DELETE CASCADE
 
 INSERT INTO adminApp (userName, userPassword)
 VALUES ('paulo', '123456');
+INSERT INTO adminApp (userName, userPassword)
+VALUES ('claude', '123456');
 
 SELECT * FROM infoUsers;
 SELECT * FROM adminApp;

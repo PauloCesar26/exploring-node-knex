@@ -2,47 +2,94 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin</title>
   <link href="/admin/static/output.css" rel="stylesheet">
-  <style>
-    input{
-      border: 1px solid black;
-      border-radius: 5px;
-    }
-  </style>
 </head>
-<body>
-  <div class="h-screen flex flex-col">
+<body class="bg-zinc-200 text-zinc-100">
+  <div class="min-h-screen flex flex-col">
     <div class="flex flex-1">
       <%- include("../../includes/sidebar.ejs"); %>
   
-      <main class="flex-1 p-6">
-        <h2 class="text-2xl mb-5">Cadastro de Usuário</h2>
+      <main class="flex-1 p-6 lg:p-8 bg-zinc-200">
+        <div class="max-w-2xl mx-auto">
+          <div class="mb-6">
+            <h2 class="text-2xl font-bold text-black">Cadastro de Card</h2>
+            <p class="text-sm text-zinc-800">Preencha os dados para criar um novo card</p>
+          </div>
 
-        <div class="bg-zinc-200 p-2 rounded-2xl">
-          <form id="form-admin" action="/admin/register-user" method="POST" enctype="multipart/form-data">
-            <label>Imagem do post:</label><br>
-            <input id="file" type="file" name="userImg" required><br><br>
-            
-            <label>Nome:</label>
-            <input id="name" type="text" name="name" required><br><br>
-            
-            <label>Email:</label>
-            <input id="email" type="email" name="email" required><br><br>
-  
-            <label>Nome de identificação para esse post:</label>
-            <input id="slug" type="text" name="slug" required><br><br>
-            
-            <button type="submit" class="h-10 p-3 bg-zinc-500 text-white font-medium rounded-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center cursor-pointer">
-              Enter
-            </button>
-          </form>
+          <div class="bg-zinc-950 border border-white/10 rounded-2xl p-6 shadow-lg shadow-black/20">
+            <form id="form-admin"
+                  action="/admin/register-user"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="flex flex-col gap-5">
+              <div class="flex flex-col gap-2">
+                <label class="text-sm text-zinc-400">Imagem do card</label>
+                <input 
+                  id="file"
+                  type="file"
+                  name="userImg"
+                  class="block w-full text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4
+                         file:rounded-lg file:border-0 file:text-sm file:font-medium
+                         file:bg-white file:text-black hover:file:bg-zinc-200
+                         bg-zinc-900 border border-white/10 rounded-lg cursor-pointer"
+                  required
+                >
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="text-sm text-zinc-400">Nome</label>
+                <input 
+                  id="name"
+                  type="text"
+                  name="name"
+                  class="h-11 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white
+                         focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition"
+                  required
+                >
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="text-sm text-zinc-400">Email</label>
+                <input 
+                  id="email"
+                  type="email"
+                  name="email"
+                  class="h-11 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white
+                         focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition"
+                  required
+                >
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="text-sm text-zinc-400">Slug (identificação do post)</label>
+                <input 
+                  id="slug"
+                  type="text"
+                  name="slug"
+                  class="h-11 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white
+                         focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition"
+                  required
+                >
+              </div>
+
+              <button 
+                type="submit"
+                class="mt-2 h-11 rounded-lg bg-white text-black font-medium
+                       hover:bg-zinc-200 transition shadow-lg hover:shadow-xl"
+              >
+                Publicar
+              </button>
+            </form>
+          </div>
         </div>
       </main>
     </div>
-  
+
     <%- include("../../includes/footer.ejs"); %>
   </div>
+
   <script src="/admin/static/js/sidebar.js"></script>
 </body>
 </html>

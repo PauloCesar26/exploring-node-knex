@@ -2,57 +2,98 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin</title>
   <link href="/admin/static/output.css" rel="stylesheet">
-  <style>
-    input{
-      border: 1px solid black;
-      border-radius: 5px;
-    }
-  </style>
 </head>
-<body>
-  <div class="h-screen flex flex-col">
+<body class="bg-zinc-950 text-zinc-100">
+  <div class="min-h-screen flex flex-col">
     <div class="flex flex-1">
       <%- include("../../includes/sidebar.ejs"); %>
   
-      <main class="flex-1 p-6">
-        <div class="mb-5 text-[1.1rem] font-medium">
-          <h2>Send post info</h2>
-        </div>
+      <main class="flex-1 p-6 lg:p-8 bg-zinc-200">
 
-        <div class="bg-zinc-200 p-2 rounded-2xl">
-          <form id="form-admin" action="/admin/post/<%= postId %>/content" method="POST" enctype="multipart/form-data">
-            <label>Type do conteudo:</label>
-            <select name="type" id="selectTypeContent" required>
-              <option value="title">Title</option>
-              <option value="text">Text</option>
-              <option value="image">Image</option>
-            </select><br><br>
-            
-            <div class="" id="simple-content">
-              <label>Content:</label>
-              <input id="content" type="text" name="content"><br><br>
-            </div>
+        <div class="max-w-2xl mx-auto">
+          <div class="mb-6">
+            <h2 class="text-2xl font-bold text-black">Conteúdo do Post</h2>
+            <p class="text-sm text-zinc-800">Adicione elementos ao card (título, texto ou imagem)</p>
+          </div>
 
-            <div class="" id="image-content">
-              <label>Imagem:</label>
-              <input id="file" type="file" name="image"><br><br>
-            </div>
-            
-            <label>Position que vai ficar na pagina:</label>
-            <input id="position" type="number" name="position" required><br><br>
-            
-            <button type="submit" class="h-10 p-3 bg-zinc-500 text-white font-medium rounded-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center cursor-pointer">
-              Enter
-            </button>
-          </form>
+          <div class="bg-zinc-950 border border-white/10 rounded-2xl p-6 shadow-lg shadow-black/20">
+            <form id="form-admin"
+                  action="/admin/post/<%= postId %>/content"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="flex flex-col gap-5">
+
+              <div class="flex flex-col gap-1">
+                <label class="text-sm text-zinc-400">Tipo de conteúdo</label>
+                <select 
+                  name="type"
+                  id="selectTypeContent"
+                  class="h-11 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white
+                         focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition"
+                  required
+                >
+                  <option value="title">Title</option>
+                  <option value="text">Text</option>
+                  <option value="image">Image</option>
+                </select>
+              </div>
+
+              <div id="simple-content" class="flex flex-col gap-1">
+                <label class="text-sm text-zinc-400">Conteúdo</label>
+                <input 
+                  id="content"
+                  type="text"
+                  name="content"
+                  class="h-11 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white
+                         focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition"
+                >
+              </div>
+
+              <div id="image-content" class="flex flex-col gap-2">
+                <label class="text-sm text-zinc-400">Imagem</label>
+                <input 
+                  id="file"
+                  type="file"
+                  name="image"
+                  class="block w-full text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4
+                         file:rounded-lg file:border-0 file:text-sm file:font-medium
+                         file:bg-white file:text-black hover:file:bg-zinc-200
+                         bg-zinc-900 border border-white/10 rounded-lg cursor-pointer"
+                >
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="text-sm text-zinc-400">Posição na página</label>
+                <input 
+                  id="position"
+                  type="number"
+                  name="position"
+                  class="h-11 px-3 rounded-lg bg-zinc-900 border border-white/10 text-white
+                         focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 transition"
+                  required
+                >
+              </div>
+
+              <button 
+                type="submit"
+                class="mt-2 h-11 rounded-lg bg-white text-black font-medium
+                       hover:bg-zinc-200 transition shadow-lg hover:shadow-xl"
+              >
+                Adicionar conteúdo
+              </button>
+
+            </form>
+          </div>
         </div>
       </main>
     </div>
   
     <%- include("../../includes/footer.ejs"); %>
   </div>
+
   <script src="/admin/static/js/post.js"></script>
   <script src="/admin/static/js/sidebar.js"></script>
 </body>

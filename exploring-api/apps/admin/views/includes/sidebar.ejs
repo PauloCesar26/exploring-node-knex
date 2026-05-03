@@ -1,24 +1,51 @@
-<aside class="w-64 bg-zinc-600 text-white">
-
-    <h2 class="w-full text-center font-bold p-5">Admin</h2>
+<aside class="w-72 bg-zinc-950 text-zinc-200 border-r border-white/10 p-4">
+    <div class="mb-4 px-2">
+        <h2 class="text-xl font-bold text-white">Admin</h2>
+    </div>
 
     <nav class="space-y-2">
-        <a href="/admin" class="w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">Home</a>
-        <!-- Dropdown -->
+        <a href="/admin"
+           class="w-full flex justify-between items-center px-4 py-3 rounded-xl text-sm font-medium transition
+                  hover:bg-white/10 hover:text-white">
+            Home
+        </a>
+
         <div class="dropdown">
-            <button class="dropdown-button w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">
+            <button
+                class="dropdown-button w-full flex justify-between items-center px-4 py-3 rounded-xl text-sm font-medium transition
+                       hover:bg-white/10 hover:text-white">
                 Posts
                 <span class="dropdown-icon transition-transform duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m6 9 6 6 6-6"/>
+                    </svg>
                 </span>
             </button>
 
             <div class="dropdown-menu hidden pl-4 mt-2 space-y-1">
-                <a href="/admin/register-info" class="block px-4 py-2">Publicar post</a>
-                <a href="/admin/manage-user" class="block px-4 py-2">Gerenciar post</a>
+                <a href="/admin/register-info"
+                   class="block px-4 py-2 rounded-lg text-sm text-zinc-400 transition hover:bg-white/10 hover:text-white">
+                    Publicar post
+                </a>
+                <a href="/admin/manage-user"
+                   class="block px-4 py-2 rounded-lg text-sm text-zinc-400 transition hover:bg-white/10 hover:text-white">
+                    Gerenciar post
+                </a>
             </div>
         </div>
-        <a href="http://localhost:3002" target="_blank" class="w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">Site Web</a>
-        <a href="/admin/logout" class="w-full flex justify-between items-center px-4 py-2 rounded hover:bg-gray-500">Logout</a>
+
+        <a href="http://localhost:3002" target="_blank"
+           class="w-full flex justify-between items-center px-4 py-3 rounded-xl text-sm font-medium transition
+                  hover:bg-white/10 hover:text-white">
+            Site Web
+        </a>
+
+        <a href="/admin/logout"
+           class="w-full flex justify-between items-center px-4 py-3 rounded-xl text-sm font-medium transition
+                  hover:bg-white/10 hover:text-white">
+            Logout
+        </a>
     </nav>
 </aside>
