@@ -35,9 +35,19 @@ VALUES ('paulo', '123456');
 INSERT INTO adminApp (userName, userPassword)
 VALUES ('claude', '123456');
 
+UPDATE adminApp
+SET siteSlug = 'claude'
+WHERE id_admin = 2;
+
 SELECT * FROM infoUsers;
 SELECT * FROM adminApp;
 SELECT * FROM content_post;
 
+ALTER TABLE adminApp
+ADD siteSlug VARCHAR(100) UNIQUE;
+
 DROP TABLE infoUsers;
+DROP TABLE adminApp;
 DROP TABLE content_post;
+
+SHOW CREATE TABLE adminApp;

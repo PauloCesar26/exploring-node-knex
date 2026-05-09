@@ -42,6 +42,7 @@ export const makeLogin = async (req, res) => {
         req.session.admin = {
             id: admin.admin.id,
             name: admin.admin.userName,
+            slug: admin.admin.slug,
             token: admin.admin.token
         };
         console.log("Admin session:", req.session.admin);

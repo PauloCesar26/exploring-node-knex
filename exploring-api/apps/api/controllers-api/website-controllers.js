@@ -1,8 +1,20 @@
 import { dbKnex } from "../database/db-connection.js";
 
 export const selectUsers = async (req, res) => {
+    const { admin_slug } = req.query;
+
     try{
-        const result = await dbKnex("infoUsers").select("*");
+        const admin = await dbKnex("adminApp")
+        .where({ siteSlug: admin_slug})
+        .first();
+
+        if(!admin){
+            return res.status(404).json({ message: "Admin não encontrado"});
+        }
+
+        const result = await dbKnex("infoUsers")
+        .select("*")
+        .where({ id_admin: admin.id_admin });
 
         res.json({
             user: result
@@ -42,11 +54,21 @@ export const selectContentPost = async (req, res) => {
 }
 
 export const searchDb = async (req, res) => {
-    try{
-        const search = req.query.query?.trim() || "";
-        console.log("Search API: ", search);
+    const search = req.query.query?.trim() || "";
+    const { admin_slug } = req.query;
 
-        const query = dbKnex("infoUsers").select("*");
+    try{
+        const admin = await dbKnex("adminApp")
+        .where({ siteSlug: admin_slug})
+        .first();
+
+        if(!admin){
+            return res.status(404).json({ message: "Admin não encontrado"});
+        }
+
+        const query = dbKnex("infoUsers")
+        .select("*")
+        .where({ id_admin: admin.id_admin});
     
         if(search){
             const termo = `%${search}%`;

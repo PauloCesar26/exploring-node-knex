@@ -15,6 +15,7 @@ export function middlewareAuthJwt(req, res, next){
     try{
         const decoded = jwt.verify(token, JWT_SECRET);
         req.adminToken = decoded.id;
+        req.adminSlug = decoded.slug;
         console.log("--All right--");
         next();
     }

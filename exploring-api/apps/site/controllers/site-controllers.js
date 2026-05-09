@@ -1,11 +1,17 @@
 import fetch from "node-fetch";
 
 export const displayInfoDb = async (req, res) => {
+    const { adminSlug } = req.params;
+
     try{
-        const response = await fetch("http://localhost:3000/api/site/select-info", {
-            method: "GET",
-        });
+        const response = await fetch(
+            `http://localhost:3000/api/site/select-info?admin_slug=${adminSlug}` 
+        );
         const result = await response.json();
+
+        if(!response.ok){
+            return res.status(404).render("pages/404"); 
+        }
 
         res.render("pages/site", {
             user: result.user
@@ -17,17 +23,18 @@ export const displayInfoDb = async (req, res) => {
 }
 
 export const displayContentPost = async (req, res) => {
-    const { id } = req.params;
+    const { id, adminSlug } = req.params;
 
     try{
-        const response = await fetch(`http://localhost:3000/api/site/content-post/${id}`, {
-            method: "GET",
-        });
+        const response = await fetch(
+            `http://localhost:3000/api/site/content-post/${id}`
+        );
         const result = await response.json();
 
         res.render("pages/details-post/details", {
             post: result.post,
-            content: result.content
+            content: result.content,
+            adminSlug
         });
     }
     catch(error){

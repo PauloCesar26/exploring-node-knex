@@ -23,11 +23,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: 'anfdjkfjdkhfdsdgoyitgj'
 }));
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
+app.use("/admin", adminRouter);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use("/admin", adminRouter);
 app.listen(PORT, () => {
   console.log(`Admin rodando em http://localhost:${PORT}`);
 });

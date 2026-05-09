@@ -29,6 +29,7 @@ export const adminMakeLogin = async (req, res) => {
 
         const token = jwt.sign({
             id: admin.id_admin,
+            slug: admin.siteSlug
         }, JWT_SECRET, {
             expiresIn: "10m"
         });
@@ -37,6 +38,7 @@ export const adminMakeLogin = async (req, res) => {
             admin: {
                 id: admin.id_admin,
                 userName: admin.userName,
+                slug: admin.siteSlug,
                 token: token
             }
         });

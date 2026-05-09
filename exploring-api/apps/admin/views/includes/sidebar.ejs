@@ -13,7 +13,7 @@
         <div class="dropdown">
             <button
                 class="dropdown-button w-full flex justify-between items-center px-4 py-3 rounded-xl text-sm font-medium transition
-                       hover:bg-white/10 hover:text-white">
+                       hover:bg-white/10 hover:text-white cursor-pointer">
                 Posts
                 <span class="dropdown-icon transition-transform duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -26,17 +26,17 @@
 
             <div class="dropdown-menu hidden pl-4 mt-2 space-y-1">
                 <a href="/admin/register-info"
-                   class="block px-4 py-2 rounded-lg text-sm text-zinc-400 transition hover:bg-white/10 hover:text-white">
+                   class="block px-4 py-2 rounded-lg text-sm text-zinc-100 transition hover:bg-white/10 hover:text-white">
                     Publicar post
                 </a>
                 <a href="/admin/manage-user"
-                   class="block px-4 py-2 rounded-lg text-sm text-zinc-400 transition hover:bg-white/10 hover:text-white">
+                   class="block px-4 py-2 rounded-lg text-sm text-zinc-100 transition hover:bg-white/10 hover:text-white">
                     Gerenciar post
                 </a>
             </div>
         </div>
 
-        <a href="http://localhost:3002" target="_blank"
+        <a href="http://localhost:3002/<%= session.admin.slug %>" target="_blank"
            class="w-full flex justify-between items-center px-4 py-3 rounded-xl text-sm font-medium transition
                   hover:bg-white/10 hover:text-white">
             Site Web
