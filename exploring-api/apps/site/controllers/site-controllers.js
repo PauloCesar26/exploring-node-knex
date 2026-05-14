@@ -1,20 +1,21 @@
 import fetch from "node-fetch";
 
 export const displayInfoDb = async (req, res) => {
-    const { adminSlug } = req.params;
+    const { siteSlug } = req.params;
 
     try{
         const response = await fetch(
-            `http://localhost:3000/api/site/select-info?admin_slug=${adminSlug}` 
+            `http://localhost:3000/api/site/select-info?admin_slug=${siteSlug}` 
         );
         const result = await response.json();
 
         if(!response.ok){
-            return res.status(404).render("pages/404"); 
+            return res.status(404).render("pages/site"); 
         }
 
         res.render("pages/site", {
-            user: result.user
+            user: result.user,
+            siteSlug: siteSlug
         });
     }
     catch(error){
@@ -23,7 +24,7 @@ export const displayInfoDb = async (req, res) => {
 }
 
 export const displayContentPost = async (req, res) => {
-    const { id, adminSlug } = req.params;
+    const { id, siteSlug } = req.params;
 
     try{
         const response = await fetch(
@@ -34,7 +35,7 @@ export const displayContentPost = async (req, res) => {
         res.render("pages/details-post/details", {
             post: result.post,
             content: result.content,
-            adminSlug
+            siteSlug: siteSlug
         });
     }
     catch(error){
@@ -43,29 +44,31 @@ export const displayContentPost = async (req, res) => {
     }
 }
 
-export const displayContentSearch = async (req, res) => {
-    try{
-        const search = req.query.query?.trim() || "";
-        const url = new URL("http://localhost:3000/api/site/search");
+// If one day I want to do the SSR search bar, reactivate this code code block
+// export const displayContentSearch = async (req, res) => {
+//     const search = req.query.query?.trim() || "";
+//     const url = new URL("http://localhost:3000/api/site/search");
+//     const { siteSlug } = req.params;
 
-        if(search){
-            url.searchParams.set("query", search);
-        }
+//     try{
+//         if(search){
+//             url.searchParams.set("query", search);
+//         }
 
-        const response = await fetch(url.toString(), {
-            method: "GET"
-        });
+//         const response = await fetch(url.toString(), {
+//             method: "GET"
+//         });
 
-        const result = await response.json();
-        console.log("Search query: ", result.search_query);
+//         const result = await response.json();
+//         console.log("Search query: ", result.search_query);
 
-        res.render("pages/site", {
-            content: result.content,
-            search_query: result.search_query
-        });
-    }
-    catch(err){
-        console.error("Erro ao buscar conteúdos: ", err);
-    }
-}
+//         res.render("pages/site", {
+//             content: result.content,
+//             search_query: result.search_query
+//         });
+//     }
+//     catch(err){
+//         console.error("Erro ao buscar conteúdos: ", err);
+//     }
+// }
 

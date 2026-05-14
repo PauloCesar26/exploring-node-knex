@@ -35,7 +35,7 @@ export const selectContentPost = async (req, res) => {
     try{
         const [post, content] = await Promise.all([
             dbKnex("infoUsers").where({ id }).first(),
-            dbKnex("content_post").where({ id_card: id}).orderBy("position_content", "asc")
+            dbKnex("content_post").where({ id_card: id}).orderBy("position_content", "asc"),
         ]);
 
         if(!post){
@@ -44,7 +44,7 @@ export const selectContentPost = async (req, res) => {
 
         return res.json({
             post: post,
-            content: content 
+            content: content
         });
     }
     catch(err){
@@ -55,11 +55,11 @@ export const selectContentPost = async (req, res) => {
 
 export const searchDb = async (req, res) => {
     const search = req.query.query?.trim() || "";
-    const { admin_slug } = req.query;
+    const { siteSlug } = req.query;
 
     try{
         const admin = await dbKnex("adminApp")
-        .where({ siteSlug: admin_slug})
+        .where({ siteSlug: siteSlug})
         .first();
 
         if(!admin){

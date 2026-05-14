@@ -2,6 +2,8 @@ const searchInput = document.getElementById("search");
 const buttonSearch = document.getElementById("buttonSearch");
 const userList = document.getElementById("userList");
 
+const siteSlug = window.location.pathname.split("/")[1];
+
 const buildCard = (users) => `
   <div class="bg-zinc-200 border-2 border-zinc-300 hover:border-black flex flex-col max-md:w-[300px] w-[320px] rounded-[15px] overflow-hidden">
     <div class="flex flex-col w-full h-[50%] bg-zinc-900">
@@ -12,7 +14,7 @@ const buildCard = (users) => `
       <p>${users.email}</p>
     </div>
     <div class="p-2 flex justify-end">
-      <a href="/post/${users.id}" class="h-10 p-3 bg-zinc-500 text-white font-medium rounded-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center cursor-pointer">
+      <a href="/${siteSlug}/post/${users.id}" class="h-10 p-3 bg-zinc-500 text-white font-medium rounded-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl flex items-center justify-center cursor-pointer">
         Detalhes
       </a>
     </div>
@@ -22,6 +24,7 @@ const buildCard = (users) => `
 const searchUsers = async (query) => {
   try{
     const url = new URL("http://localhost:3000/api/site/search");
+    url.searchParams.set("siteSlug", siteSlug);
 
     if(query){
       url.searchParams.set("query", query);

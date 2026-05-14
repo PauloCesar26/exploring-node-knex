@@ -3,7 +3,7 @@ import { displayContentPost, displayInfoDb } from "../controllers/site-controlle
 
 export const siteRouter = express.Router();
 
-siteRouter.get("/:adminSlug", displayInfoDb);
-siteRouter.get("/:adminSlug/post/:id", displayContentPost);
+siteRouter.get("/:siteSlug", displayInfoDb);
+siteRouter.get("/:siteSlug/post/:id", displayContentPost);
 
 

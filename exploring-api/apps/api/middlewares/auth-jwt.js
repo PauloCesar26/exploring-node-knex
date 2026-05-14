@@ -10,7 +10,8 @@ export function middlewareAuthJwt(req, res, next){
     }
 
     console.log("-----AUTHAPI------");
-    console.log(token);
+    console.log("req.headers: ", authHeader);
+    console.log("Token: ", token);
 
     try{
         const decoded = jwt.verify(token, JWT_SECRET);
