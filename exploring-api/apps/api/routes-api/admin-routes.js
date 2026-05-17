@@ -7,11 +7,12 @@ import {
     adminCreateContentPost, 
     exportDataDb 
 } from "../controllers-api/admin-controllers.js";
-import { upload } from "../multer/multer-config.js";
-import { uploadContent } from "../multer/multer-config-content.js";
 import { middlewareAuthJwt } from "../middlewares/auth-jwt.js";
+import { createUpload } from "../multer/multer-config.js";
 
 export const apiAdminRouter = express.Router();
+const upload = createUpload("./uploads");
+const uploadContent = createUpload("./uploads-content");
 
 apiAdminRouter.post("/admin-login", adminMakeLogin);
 apiAdminRouter.get("/manage-user", middlewareAuthJwt, adminManageUsers);
