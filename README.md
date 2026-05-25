@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 Exploring-nodejs
+# 🚀 Exploring-nodejs - API REST com Painel Administrativo e Site Público
 
 ### *Multi-App Platform with Administrative Webapp, REST API and Public Site*
 
@@ -780,3 +780,7 @@ PORT=3000
 **Desenvolvido com Node.js, foco em arquitetura modular e boas práticas de engenharia de software.**
 
 </div>
+
+## 👨‍💻 Autor
+
+**Paulo César**
