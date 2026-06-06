@@ -1,4 +1,6 @@
 import fetch from "node-fetch";
+import { upload } from "../multer/multer-config.js";
+import FormData from "form-data";
 
 export const viewLogin = (req, res) => {
     res.render("pages/login/login", { errorUser: null, errorPassword: null });
@@ -94,37 +96,49 @@ export const manageUsers = async (req, res) => {
     }
 }
 
-export const registerUser = async (req, res) => {
-    const token = req.session.admin.token;
+export const registerUser = [
+    upload.single("userImg"),
+    async (req, res) => {
+        const token = req.session.admin.token;
 
-    try {
-        if(!req.session.admin){
-            return res.redirect("/admin/admin-login");
+        try {
+            if(!req.session.admin){
+                return res.redirect("/admin/admin-login");
+            }
+
+            const form = new FormData();
+            form.append("name", req.body.name);
+            form.append("email", req.body.email);
+            form.append("slug", req.body.slug);
+            form.append("userImg", req.file.buffer, {
+                filename: req.file.originalname,
+                contentType: req.file.mimetype
+            });
+
+            const response = await fetch("http://localhost:3000/api/admin/register-user", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    ...form.getHeaders()
+                },
+                body: form
+            });
+
+            const data = await response.json();
+
+            if(response.status === 401){
+                console.log("Token inválido");
+                return res.redirect("/admin/admin-login");
+            }
+
+            res.redirect(`/admin/post/${data.postId}/content`);
+        } 
+        catch(err){
+            console.error(err);
+            res.redirect("/admin/register-info");
         }
-
-        const response = await fetch("http://localhost:3000/api/admin/register-user", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": req.headers["content-type"]
-            },
-            body: req
-        });
-
-        const data = await response.json();
-
-        if(response.status === 401){
-            console.log("Token inválido");
-            return res.redirect("/admin/admin-login");
-        }
-
-        res.redirect(`/admin/post/${data.postId}/content`);
-    } 
-    catch(err){
-        console.error(err);
-        res.redirect("/admin/register-info");
     }
-};
+]
 
 export const deleteUser = async (req, res) => {
     const { id } = req.params;
